@@ -8,10 +8,30 @@ module.exports = (passport) => {
             clientSecret: process.env.GOOGLE_CLIENT_SECRET,
             callbackURL: "/auth/google/callback"
         },
+        // Callback function after login is successful
         async (accessToken, refreshToken, profile, done) => {
-            console.log(profile);
-            console.log(accessToken);
-            console.log(refreshToken);
+            const newUser = {
+                googleId: profile.id,
+                displayName: profile.displayName,
+                firstName: profile.name.givenName,
+                lastName: profile.name.familyName,
+                image: profile.photos[0].value
+            }
+            // Create a user in the database if it does not exist
+            try {
+                let user = await User.findOne({
+                    googleId: profile.id
+                });
+
+                if (user) {
+                    done(null, user);
+                } else {
+                    user = await User.create(newUser);
+                    done(null, user);
+                }
+            } catch (err) {
+                console.error(err);
+            }
         }
     ));
 
