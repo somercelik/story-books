@@ -5,6 +5,8 @@ const morgan = require("morgan");
 const {
     engine
 } = require("express-handlebars");
+const passport = require("passport");
+const session = require("express-session");
 const connectDB = require("./config/db");
 
 // Load config
@@ -15,6 +17,9 @@ dotenv.config({
 connectDB();
 
 const app = express();
+
+// Passport config
+require("./config/passport") (passport)
 
 
 // Logging
@@ -28,11 +33,24 @@ app.engine(".hbs", engine({
 }));
 app.set("view engine", ".hbs");
 
+// Sessions
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: true },
+  }))
+
+// Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
 // Static folder
 app.use(express.static(path.join(__dirname, "public")));
 
 // Routes
 app.use("/", require("./routes/index"));
+app.use("/auth", require("./routes/auth"));
 
 const PORT = process.env.BACKEND_PORT;
 
