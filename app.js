@@ -2,7 +2,9 @@ const path = require("path");
 const express = require("express");
 const dotenv = require("dotenv");
 const morgan = require("morgan");
-const { engine } = require("express-handlebars");
+const {
+    engine
+} = require("express-handlebars");
 const connectDB = require("./config/db");
 
 // Load config
@@ -16,12 +18,14 @@ const app = express();
 
 
 // Logging
-if(process.env.NODE_ENV === "development") {
+if (process.env.NODE_ENV === "development") {
     app.use(morgan("dev"));
 }
 
 // Handlebars
-app.engine(".hbs", engine({extname: ".hbs"}));
+app.engine(".hbs", engine({
+    extname: ".hbs"
+}));
 app.set("view engine", ".hbs");
 
 // Static folder
