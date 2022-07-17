@@ -36,9 +36,18 @@ if (process.env.NODE_ENV === "development") {
     app.use(morgan("dev"));
 }
 
+// Hadlebars Helpers
+const {
+    formatDate
+} = require("./helpers/hbs")
+
 // Handlebars
 app.engine(".hbs", engine({
-    extname: ".hbs"
+    defaultLayout: "main",
+    extname: ".hbs",
+    helpers: {
+        formatDate
+    }
 }));
 app.set("view engine", ".hbs");
 
