@@ -1,5 +1,6 @@
 const path = require("path");
 const express = require("express");
+const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const morgan = require("morgan");
 const {
@@ -7,7 +8,9 @@ const {
 } = require("express-handlebars");
 const passport = require("passport");
 const session = require("express-session");
+const MongoStore = require("connect-mongo");
 const connectDB = require("./config/db");
+
 
 // Load config
 dotenv.config({
@@ -19,7 +22,7 @@ connectDB();
 const app = express();
 
 // Passport config
-require("./config/passport") (passport)
+require("./config/passport")(passport)
 
 
 // Logging
@@ -38,8 +41,11 @@ app.use(session({
     secret: 'keyboard cat',
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: true },
-  }))
+    store: MongoStore.create({
+        mongoUrl: mongoose.connection._connectionString,
+        mongoOptions: mongoose.connection._connectionOptions
+    })
+}))
 
 // Passport middleware
 app.use(passport.initialize());
