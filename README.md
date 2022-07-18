@@ -29,10 +29,10 @@ I didn't share the exact file I used because of the security reasons. If any que
 
 ## Screenshots
 
-![Login Screen](https://github.com/somercelik/story-books/blob/develop/images/login.png?raw=true)
-![Your Stories](https://github.com/somercelik/story-books/blob/develop/images/your-stories.png?raw=true)
-![Public Stories](https://github.com/somercelik/story-books/blob/develop/images/all-stories..png?raw=true)
-![Single Story View](https://github.com/somercelik/story-books/blob/develop/images/single-story-view.png?raw=true)
+![Login Screen](https://github.com/somercelik/story-books/raw/main/images/login.png?raw=true)
+![Your Stories](https://github.com/somercelik/story-books/raw/main/images/your-stories.png?raw=true)
+![Public Stories](https://github.com/somercelik/story-books/raw/main/images/all-stories.png?raw=true)
+![Single Story View](https://github.com/somercelik/story-books/raw/main/images/single-story-view.png?raw=true)
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
