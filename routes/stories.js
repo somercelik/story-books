@@ -108,4 +108,32 @@ router.put("/:id", ensureAuth, async (req, res) => {
     }
 })
 
+/**
+ * @desc    Delete a story
+ * @route   DELETE /stories/:id
+ */
+router.delete("/:id", ensureAuth, async (req, res) => {
+    try {
+        let story = await Story.findOne({
+            _id: req.params.id
+        }).lean();
+
+        if (!story) {
+            return res.render("error/404");
+        }
+
+        if (story.user != req.user.id) {
+            return res.render("error/500");
+        } else {
+            story = await Story.remove({
+                _id: req.params.id
+            })
+            res.redirect("/dashboard");
+        }
+    } catch (err) {
+        console.error(err);
+        res.render("error/500");
+    }
+})
+
 module.exports = router;
