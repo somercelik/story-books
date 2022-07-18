@@ -6,6 +6,7 @@ const morgan = require("morgan");
 const {
     engine
 } = require("express-handlebars");
+const methodOverride = require("method-override");
 const passport = require("passport");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
@@ -30,7 +31,17 @@ app.use(express.urlencoded({
 }));
 app.use(express.json());
 
+// Method override
+app.use(methodOverride((req, res) => {
+    if (req.body && typeof req.body === 'object' && '_method' in req.body) {
+      // look in urlencoded POST bodies and delete it
+      let method = req.body._method;
+      delete req.body._method;
+      return method;
+    }
+  }))
 
+  
 // Logging
 if (process.env.NODE_ENV === "development") {
     app.use(morgan("dev"));
@@ -41,7 +52,8 @@ const {
     formatDate,
     stripTags,
     truncate,
-    editIcon
+    editIcon,
+    select,
 } = require("./helpers/hbs")
 
 // Handlebars
@@ -52,7 +64,8 @@ app.engine(".hbs", engine({
         formatDate,
         stripTags,
         truncate,
-        editIcon
+        editIcon,
+        select,
     }
 }));
 app.set("view engine", ".hbs");
@@ -85,6 +98,8 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/", require("./routes/index"));
 app.use("/auth", require("./routes/auth"));
 app.use("/stories", require("./routes/stories"));
+
+
 
 const PORT = process.env.BACKEND_PORT;
 
