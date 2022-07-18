@@ -63,7 +63,30 @@ router.get("/", ensureAuth, async (req, res) => {
 })
 
 /**
- * @desc    Creates a story
+ * @desc    Render single story page
+ * @route   GET /stories/:id
+ */
+router.get("/:id", ensureAuth, async (req, res) => {
+    try {
+        const story = await Story
+            .findById(req.params.id)
+            .populate("user")
+            .lean();
+
+        if(!story) {
+            return res.render("error/404");
+        }
+
+        res.render("stories/view", {
+            story
+        });
+    } catch (err) {
+        console.error(err);
+        res.render("error/500");
+    }
+})
+/**
+ * @desc    Create a story
  * @route   POST /stories
  */
 router.post("/", ensureAuth, async (req, res) => {
