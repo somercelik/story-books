@@ -1,7 +1,7 @@
 {
   "name": "story-books",
   "version": "1.0.0",
-  "description": "App to create public and private stories and share them.",
+  "description": "Story Books is a website which you can share the memories from your life. All you need is a Google Account!",
   "main": "app.js",
   "scripts": {
     "start": "cross-env NODE_ENV=production node app",
